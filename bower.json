@@ -1,0 +1,23 @@
+{
+  "name": "m-slider",
+  "description": "MSlider Content - image slider",
+  "main": "js/m-slider.js",
+  "authors": [
+    "mirotincev"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "carousel",
+    "m-slider",
+    "responsive"
+  ],
+  "homepage": "https://github.com/mirotincev/MSlider",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "libs",
+    "test",
+    "tests"
+  ]
+}
