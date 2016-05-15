@@ -1,0 +1,27 @@
+{
+  "name": "m-slider",
+  "version": "1.0.0",
+  "description": "MSlider Content - image slider",
+  "main": "js/m-slider.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirotincev/MSlider.git"
+  },
+  "keywords": [
+    "carousel",
+    "m-slider",
+    "responsive"
+  ],
+  "author": "mirotincev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mirotincev/MSlider/issues"
+  },
+  "dependencies": {
+    "jquery": ">=1.7.2"
+  },
+  "homepage": "https://github.com/mirotincev/MSlider#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

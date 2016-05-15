@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Scroll Trigger</title>
+
+  <script src="./js/jquery.js"></script>
+  <script src="./js/m-slider.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<script>
+  $(function() {
+    addSlide('.m-slider');
+    var slider = $('.js-m-slider').MSlider({
+      items: 'all'
+    });
+
+    var slider = $('.js-m-slider2').MSlider({
+      items: 2,
+      dots: false,
+      easing: 'linear'
+    });
+    var slider = $('.js-m-slider3').MSlider({
+      items: 1
+    });
+
+  });
+  function addSlide(element) {
+    for (var i = 0; i < 10; ++i) {
+      var random = Math.random();
+      $(element).append(
+        [
+          '<li class="m-slider__item">',
+          '<img src="http://lorempixel.com/g/200/200?_=' + random +'" />',
+          '</li>'
+        ].join('')
+      );
+    }
+  }
+</script>
+<body ng-app="demo">
+  <ul class="m-slider js-m-slider"> </ul>
+
+  <ul class="m-slider js-m-slider2"> </ul>
+
+  <ul class="m-slider js-m-slider3"> </ul>
+</body>
+
+</html>
