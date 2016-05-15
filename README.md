@@ -1,2 +1,2 @@
 # MSlider
-Content / image slider
+Еще один слайдер контента - жалобы предложения в [issues](https://github.com/mirotincev/MSlider/issues)
