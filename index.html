@@ -12,16 +12,23 @@
 <script>
   $(function() {
     addSlide('.m-slider');
+    $('.js-m-slider').on('m-slider:init', function(event, slider) {
+      $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');
+    })
     var slider = $('.js-m-slider').MSlider({
       items: 'all'
     });
+    slider.on('m-slider:change', function(event, slider) {
+      $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');
+    })
+    
 
-    var slider = $('.js-m-slider2').MSlider({
+    var slider2 = $('.js-m-slider2').MSlider({
       items: 2,
       dots: false,
       easing: 'linear'
     });
-    var slider = $('.js-m-slider3').MSlider({
+    var slider3 = $('.js-m-slider3').MSlider({
       items: 1
     });
 
@@ -41,6 +48,8 @@
 </script>
 <body ng-app="demo">
   <ul class="m-slider js-m-slider"> </ul>
+
+  <pre class="js-m-slider-debug"></pre>
 
   <ul class="m-slider js-m-slider2"> </ul>
 

@@ -1,3 +1,8 @@
+pre {
+	max-height: 100px;
+    overflow: auto;
+}
+
 .m-slider {
 	margin: 0;
 	padding: 0;
