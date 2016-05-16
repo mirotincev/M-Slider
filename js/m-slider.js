@@ -139,7 +139,9 @@
         var _ = this;
         var slide = document.createElement('div');
         slide.className = [_.options.className,'wrap'].join('__') 
-        _.options.element.wrapAll(slide);
+        _.options.element
+            .addClass([_.options.className,'content'].join('__'))
+            .wrapAll(slide);
         _.$wrap = $(_.options.element).parent(slide);
         _.options.appendArrows = $(_.$wrap);
         if (_.options.dots) {
