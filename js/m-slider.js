@@ -181,6 +181,7 @@
         if (_.options.autoplay === true) {
             _.autoPlay();
         }
+        _.$slider.trigger('m-slider:initialize', _); 
     };
 
     MSlider.prototype.initializeEvents = function() {
