@@ -11,8 +11,9 @@
 </head>
 <script>
   $(function() {
-    addSlide('.m-slider');
-    $('.js-m-slider').on('m-slider:init', function(event, slider) {
+    addSlide('.js-m-slider');
+    $('.js-m-slider').on('m-slider:initialize', function(event, slider) {
+      loadIMage(slider);
       $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');
     })
     var slider = $('.js-m-slider').MSlider({
@@ -20,6 +21,7 @@
     });
     slider.on('m-slider:change', function(event, slider) {
       $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');
+      loadIMage(slider);
     })
     
 
@@ -33,27 +35,35 @@
     });
 
   });
+  function loadIMage( slider ) {
+    $.each(slider.activeSlides, function (index, item) {
+      var itemSlide = slider.$slider.children().eq(item);
+      var $img = $(itemSlide).find('img');
+        $img.attr('src', $img.data('src'));
+    })
+  }
   function addSlide(element) {
     for (var i = 0; i < 10; ++i) {
       var random = Math.random();
       $(element).append(
         [
-          '<li class="m-slider__item">',
-          '<img src="http://lorempixel.com/g/200/200?_=' + random +'" />',
+          '<li>', 
+          '<img data-src="http://lorempixel.com/g/200/200?_=' + random +'" />',
           '</li>'
         ].join('')
       );
     }
   }
 </script>
+<!-- '<img src="http://lorempixel.com/g/200/200?_=' + random +'" />', -->
 <body ng-app="demo">
-  <ul class="m-slider js-m-slider"> </ul>
+  <ul class="mega-stock__container js-m-slider"> </ul>
 
   <pre class="js-m-slider-debug"></pre>
 
-  <ul class="m-slider js-m-slider2"> </ul>
+  <!-- <ul class="m-slider js-m-slider2"> </ul>
 
-  <ul class="m-slider js-m-slider3"> </ul>
+  <ul class="m-slider js-m-slider3"> </ul> -->
 </body>
 
 </html>
