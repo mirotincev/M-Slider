@@ -284,11 +284,8 @@
 
     MSlider.prototype.slide = function (currentX) {
         var _ = this;
-        var animationTime = 1000;
-        var nextScroll = _.direction === 'next' ? '+=' : '-=';
         console.log('currentX', currentX);
         _.currentX = currentX;
-
 
             _.animating = false;
             _.$slider.children().css({
@@ -300,9 +297,9 @@
             _.setSlideClasses();
             _.animating = false;
             _.$slider.trigger('m-slider:change', _);
-        //_.$slider.children().css('-webkit-transform', 'translate3d('+ currentX +')px 0px 0px');    
     }
-    //currentSlide
+
+
     MSlider.prototype.goToSlide = function(data) {
         var _ = this;    
         var widthSlide = _._widthSlide();
@@ -321,6 +318,8 @@
             _.currentSlide = data.itemSlide - 1;
         }
         _.currentSlide = data.itemSlide;   
+        _.animationTime = 200;
+console.log('_.currentSlide * widthSlide', _.currentSlide * widthSlide);
         _.slide(-Math.abs(_.currentSlide * widthSlide));
     }
 
