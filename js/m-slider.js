@@ -41,6 +41,7 @@
 
             _.initials = {
                 animating: false,
+                currentX: 0,
                 currentSlide: 0,
                 animationTime: 1000,
                 direction: '',
@@ -229,16 +230,17 @@
         $(window).on('resize', function (event) {
              _.reinit();   
         });
-        console.log('_.$slider initializeEvents')
-        _.$slider
+
+        _.$slider.children()
         .bind({
             // start
             'touchstart.touchSlides': function(e) {
                 var eo = e.originalEvent.touches[0];
                     x1 = eo.pageX;
                     y1 = eo.pageY;
-                    _.$slider.css('-webkit-transition', 'none');
+                    _.$slider.children().css('-webkit-transition', 'none');
                     t1 = Date.now();
+                    _.paused = true;
             },
             // move
             'touchmove.touchSlides': function(e) {
@@ -246,30 +248,35 @@
                 var eo = e.originalEvent.touches[0];
                     shiftX = eo.pageX - x1;
                     shiftY = eo.pageY - y1;
-
-                    _.$slider.css('-webkit-transform', 'translate3d(' + (currentX + shiftX ) + 'px, 0, 0)');
-                    /*if (options.preventVert && Math.abs(shiftY) > options.preventVertThreshold) {
-                        e.preventDefault();
-                    }*/
+                    currentX = _.currentX + shiftX * 1.5
+                    _.$slider.children().css({
+                        '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
+                    });  
             },
             // end
             'touchend.touchSlides': function(e) {
-              console.log('touchend.touchSlides')  
-            },
+                _.paused = false;
+                if( shiftX < 0 ) {
+                    _.nextSlide();
+                } else {
+                    _.prevSlide();
+                }
+              /*console.log('touchend.touchSlides')  */
+            }, 
 
             // cancel / reset
             'touchcancel.touchSlides': function() {
-                console.log('touchcancel.touchSlides')  
+                /*console.log('touchcancel.touchSlides')  */
             },
 
             // left custom slide event
             'slideLeft.touchSlides': function(e, customStep) {
-                console.log('slideLeft.touchSlides')  
+                /*console.info('slideLeft.touchSlides')  */
             },
 
             // right custom slide event
             'slideRight.touchSlides': function(e, customStep) {
-                console.log('slideRight.touchSlides')  
+                /*console.info('slideRight.touchSlides')  */
             }
         })
 
@@ -280,6 +287,8 @@
         var animationTime = 1000;
         var nextScroll = _.direction === 'next' ? '+=' : '-=';
         console.log('currentX', currentX);
+        _.currentX = currentX;
+
         /*_.$slider
             .animate( 
             { 

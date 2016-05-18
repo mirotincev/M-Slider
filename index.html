@@ -7,7 +7,7 @@
   <script src="./js/jquery.js"></script>
   <script src="./js/m-slider.js"></script>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./dest/style/stylesheet.css" />
 </head>
 <script>
   $(function() {
@@ -17,7 +17,6 @@
       $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');
     })
     var slider = $('.js-m-slider').MSlider({
-      autoplay: false,
       items: 'all'
     });
     slider.on('m-slider:change', function(event, slider) {
@@ -49,7 +48,7 @@
       $(element).append(
         [
           '<li>', 
-          '<img src="http://loremflickr.com/200/200?v=' + random +'" />',
+          '<img src="./dest/image/'+i+'.jpg" />',
           '</li>'
         ].join('')
       );
