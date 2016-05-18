@@ -43,7 +43,7 @@
                 animating: false,
                 currentX: 0,
                 currentSlide: 0,
-                animationTime: 1000,
+                animationTime: 500,
                 direction: '',
                 $wrap: null,
                 $dots: null,
@@ -218,7 +218,7 @@
         .on('mouseenter', function(event) {
             _.paused = true;
             _.autoPlay();
-        })
+        }) 
         .on('mouseleave', function(event) {
             _.paused = false;
             _.autoPlay();
@@ -309,7 +309,7 @@
 
             _.animating = false;
             _.$slider.children().css({
-                '-webkit-transition':'-webkit-transform 0.5s ease-out',
+                '-webkit-transition':'-webkit-transform '+ _.animationTime +'ms ease-out',
                 '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
             });
             _.autoPlay();
@@ -347,9 +347,10 @@
         var sLeft = _.$slider.scrollLeft();
         var nextSlide = sLeft === 0 ? _.$sliderWidth - widthSlide : widthSlide ;
          _.animating = true;
+         _.animationTime = 500;
          --_.currentSlide;
         if( _.currentSlide < 0 ) {
-            _.animationTime = 300;
+            _.animationTime = 200;
             _.currentSlide = _.slideCount -1;
         } 
         _.$slider.trigger('m-slider:prevSlide', _ );
@@ -362,11 +363,12 @@
          var sLeft = _.$slider.scrollLeft();
          var nextSlide = sLeft + _.$slider.innerWidth() < _.$sliderWidth ? widthSlide : _.$sliderWidth;
          _.animating = true;
+         _.animationTime = 500;
          ++_.currentSlide;
          if( _.slideCount === _.currentSlide ) {
-            _.animationTime = 300;
+            _.animationTime = 200;
             _.currentSlide = 0;
-         } 
+         }
          _.$slider.trigger('m-slider:nextSlide', _ );
          _.slide(-Math.abs(_.currentSlide * widthSlide));
     };
