@@ -6,9 +6,9 @@ pre {
 .m-slider__content {
 	margin: 0;
 	padding: 0;
-    overflow: scroll;
+    overflow: hidden;
     white-space: nowrap;
-    width: 600px;
+    width: 400px;
 	
 }
 .m-slider__wrap{
@@ -20,6 +20,7 @@ pre {
 	position: absolute;
 	top: 0;
 	background: red;
+	z-index: 10;
 }
 .m-slider__arrow--next {
 	right: 0;
@@ -31,12 +32,17 @@ pre {
     font-size: 96px;
     color: #ccc;
     text-align: center;
-    width: 300px;
+    width: 50%;
     height: 200px;
     display: inline-block;
     box-sizing: border-box;
     list-style: none;
     vertical-align: top;
+}
+.m-slider__item  img{
+	background: red;
+	min-width: 100px;
+	min-height: 100px;
 }
 .m-slider__dots-list {
 
