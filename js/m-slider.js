@@ -289,23 +289,6 @@
         console.log('currentX', currentX);
         _.currentX = currentX;
 
-        /*_.$slider
-            .animate( 
-            { 
-                scrollLeft: nextScroll + currentX 
-            }, 
-            _.animationTime ,
-            _.options.easing, 
-            function (param) {
-                _.autoPlay();
-                _.setDotsClasses();
-                _.setSlideClasses();
-                _.animating = false;
-                _.$slider.trigger('m-slider:change', _);
-            });*/
-            
-
-            console.log('nextScroll', nextScroll )
 
             _.animating = false;
             _.$slider.children().css({
@@ -338,7 +321,7 @@
             _.currentSlide = data.itemSlide - 1;
         }
         _.currentSlide = data.itemSlide;   
-        _.slide(nextSlide);
+        _.slide(-Math.abs(_.currentSlide * widthSlide));
     }
 
     MSlider.prototype.prevSlide = function() {
