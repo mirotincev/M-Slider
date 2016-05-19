@@ -88,7 +88,12 @@
          var _ = this;
          var widthSlide = _._widthSlide();
          _.$sliderWidth = _.$slider[0].scrollWidth;
-         _.slideCount = Math.ceil(_.$sliderWidth / widthSlide);
+         if( typeof _.options.items === 1 ) {
+            _.slideCount = _.$slider.children().length;
+         } else {
+            _.slideCount = Math.ceil(_.$sliderWidth / widthSlide);
+         }
+         
          var slide = document.createElement('div'),
             ul = document.createElement('ul'), 
             newDotes = document.createDocumentFragment();
@@ -244,7 +249,7 @@
             },
             // move
             'touchmove.touchSlides': function(e) {
-                /*console.log('touchmove.touchSlides')*/
+                /*console.log('touchmove.touchSlides')*/  
                 var eo = e.originalEvent.touches[0];
                     shiftX = eo.pageX - x1;
                     shiftY = eo.pageY - y1;
