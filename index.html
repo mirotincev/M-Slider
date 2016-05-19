@@ -20,7 +20,9 @@
     var slider = $('.js-m-slider').MSlider({
       items: 'all',
       appendArrows: '.mega-stock__arrow',
+      dots: false,
       autoplay: false
+
     });
     slider.on('m-slider:change', function(event, slider) {
       $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');

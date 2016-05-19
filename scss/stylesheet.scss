@@ -25,9 +25,12 @@ pre {
 		z-index: 10;
 		&--next {
 			right: 0;
-		}
+		} 
 		&--prev {
 			left: 0%
+		}
+		&.hidden{
+			display: none;
 		}
 	}
 	&__item {
@@ -41,7 +44,11 @@ pre {
 	    list-style: none;
 	    vertical-align: top;
 	}
-	&__dots-list {}
+	&__dots-list {
+		&.hidden{
+			display: none;
+		}
+	}
 	&__dot{
 		list-style: none;
 		display: inline-block;

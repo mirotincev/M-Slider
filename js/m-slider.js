@@ -94,11 +94,14 @@
             _.slideCount = Math.ceil(_.$sliderWidth / widthSlide);
          }
          
-         var slide = document.createElement('div'),
+         var slide = document.createElement('div'), 
             ul = document.createElement('ul'), 
             newDotes = document.createDocumentFragment();
             slide.className = [_.options.className,'dots'].join('__');
             ul.className = [_.options.className,'dots-list'].join('__');
+            if (!_.options.dots) {
+                ul.className += ' hidden'; 
+            }
 
             for (var i = 1; i < _.slideCount + 1; i++) {
                 var li = $(document.createElement('li')).append($(document.createElement('span')).text(i));
@@ -172,9 +175,8 @@
         _.$wrap = $(_.options.element).parent(slide);
         //_.options.appendArrows = $(_.$wrap);
         _.options.element.children().addClass([_.options.className,'item'].join('__') )
-        if (_.options.dots) {
+        
             _.buildDots();
-        }
         if (_.options.arrows) {
             _.buildArrow();
         }
