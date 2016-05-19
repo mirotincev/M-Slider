@@ -257,13 +257,15 @@
                 var eo = e.originalEvent.touches[0];
                     shiftX = eo.pageX - x1;
                     shiftY = eo.pageY - y1;
-                    currentX = _.currentX + shiftX * 1.5;
-                    if(shiftY < 10) {
-                         _.$slider.children().css({
-                            '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
-                        });  
-                    } 
+                    currentX = _.currentX + shiftX * 1.9;
+                if(Math.abs(shiftY) < Math.abs(currentX)) {
+                    _.$slider.children().css({
+                        '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
+                    });
+                } else {
                     e.preventDefault();
+                }
+
                     
             },
             // end
@@ -271,7 +273,7 @@
                 /*console.log('touchend.touchSlides')*/
                 _.paused = false;
                 /*console.log('shiftX', shiftX)*/
-                if( typeof shiftX !== 'undefined' ){
+                if( typeof shiftX !== 'undefined' && shiftY < 10 ){
                     if( shiftX < 0 ) {
                         _.nextSlide();
                     } else {
@@ -322,15 +324,15 @@
     MSlider.prototype.goToSlide = function(data) {
         var _ = this;    
         var widthSlide = _._widthSlide();
-        var sLeft = _.$slider.scrollLeft();
+        //var sLeft = _.$slider.scrollLeft();
         var nextSlide = data.itemSlide * widthSlide;
         _.animating = true;
         _.direction = 'next';
         if( sLeft > 0 ) {
             if(_.currentSlide < data.itemSlide ){
-                nextSlide = nextSlide - sLeft;
+                // nextSlide = nextSlide - sLeft;
             } else {
-                 nextSlide = sLeft - nextSlide;
+                 // nextSlide = sLeft - nextSlide;
                 _.direction = 'prev';
             }
         } else {
@@ -344,7 +346,6 @@
     MSlider.prototype.prevSlide = function() {
         var _ = this;    
         var widthSlide = _._widthSlide();
-        var sLeft = _.$slider.scrollLeft();
          _.direction = 'prev';
          _.animating = true;
          _.animationTime = 500;
@@ -360,7 +361,7 @@
     MSlider.prototype.nextSlide = function() {
         var _ = this;    
          var widthSlide = _._widthSlide();
-         var sLeft = _.$slider.scrollLeft();
+         //var sLeft = _.$slider.scrollLeft();
          _.direction = 'next';
          _.animating = true;
          _.animationTime = 500;
@@ -376,7 +377,7 @@
     MSlider.prototype._correctWidth = function(nextSlide, direction) {
         var _ = this;    
         var widthSlide = _._widthSlide(nextSlide);
-        var sLeft = _.$slider.scrollLeft();
+        // var sLeft = _.$slider.scrollLeft();
         var correctWidth = sLeft / nextSlide ;
             correctWidth = correctWidth.toString().split('.')[1];
             if( typeof correctWidth === 'string' ){
@@ -436,7 +437,6 @@
                 } else {
                     _.prevSlide();
                 }
-                
             }, _.options.autoplaySpeed);
         }
 
