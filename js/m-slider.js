@@ -80,7 +80,7 @@
         }
 
         return MSlider;
-
+  
     }());
 
 
@@ -88,7 +88,7 @@
          var _ = this;
          var widthSlide = _._widthSlide();
          _.$sliderWidth = _.$slider[0].scrollWidth;
-         if( typeof _.options.items === 1 ) {
+         if( _.options.items === 1 ) {
             _.slideCount = _.$slider.children().length;
          } else {
             _.slideCount = Math.ceil(_.$sliderWidth / widthSlide);
