@@ -44,7 +44,7 @@
                 currentX: 0,
                 currentSlide: 0,
                 animationTime: 500,
-                direction: '',
+                direction: 'next',
                 $wrap: null,
                 $dots: null,
                 $nextArrow: null,
@@ -244,24 +244,31 @@
             },
             // move
             'touchmove.touchSlides': function(e) {
-                console.log('touchmove.touchSlides')
+                /*console.log('touchmove.touchSlides')*/
                 var eo = e.originalEvent.touches[0];
                     shiftX = eo.pageX - x1;
                     shiftY = eo.pageY - y1;
-                    currentX = _.currentX + shiftX * 1.5
+                    currentX = _.currentX + shiftX * 1.5;
+                    e.preventDefault();
                     _.$slider.children().css({
                         '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
                     });  
             },
             // end
             'touchend.touchSlides': function(e) {
+                /*console.log('touchend.touchSlides')*/
                 _.paused = false;
-                if( shiftX < 0 ) {
-                    _.nextSlide();
-                } else {
-                    _.prevSlide();
+                /*console.log('shiftX', shiftX)*/
+                if( typeof shiftX !== 'undefined' ){
+                    if( shiftX < 0 ) {
+                        _.nextSlide();
+                    } else {
+                        _.prevSlide();
+                    }
+                    shiftX = undefined;
+    
                 }
-              /*console.log('touchend.touchSlides')  */
+                /*console.log('touchend.touchSlides')  */
             }, 
 
             // cancel / reset
@@ -271,7 +278,7 @@
 
             // left custom slide event
             'slideLeft.touchSlides': function(e, customStep) {
-                /*console.info('slideLeft.touchSlides')  */
+                /*console.info('slideLeft.touchSlides') */ 
             },
 
             // right custom slide event
@@ -284,7 +291,7 @@
 
     MSlider.prototype.slide = function (currentX) {
         var _ = this;
-        console.log('currentX', currentX);
+        /*console.log('currentX', currentX);*/
         _.currentX = currentX;
 
             _.animating = false;
@@ -319,7 +326,6 @@
         }
         _.currentSlide = data.itemSlide;   
         _.animationTime = 200;
-console.log('_.currentSlide * widthSlide', _.currentSlide * widthSlide);
         _.slide(-Math.abs(_.currentSlide * widthSlide));
     }
 
@@ -327,7 +333,7 @@ console.log('_.currentSlide * widthSlide', _.currentSlide * widthSlide);
         var _ = this;    
         var widthSlide = _._widthSlide();
         var sLeft = _.$slider.scrollLeft();
-        var nextSlide = sLeft === 0 ? _.$sliderWidth - widthSlide : widthSlide ;
+         _.direction = 'prev';
          _.animating = true;
          _.animationTime = 500;
          --_.currentSlide;
@@ -343,7 +349,7 @@ console.log('_.currentSlide * widthSlide', _.currentSlide * widthSlide);
         var _ = this;    
          var widthSlide = _._widthSlide();
          var sLeft = _.$slider.scrollLeft();
-         var nextSlide = sLeft + _.$slider.innerWidth() < _.$sliderWidth ? widthSlide : _.$sliderWidth;
+         _.direction = 'next';
          _.animating = true;
          _.animationTime = 500;
          ++_.currentSlide;
@@ -413,7 +419,12 @@ console.log('_.currentSlide * widthSlide', _.currentSlide * widthSlide);
 
         if ( _.paused !== true) {
             _.autoPlayTimer = setInterval(function() {
-                _.nextSlide();
+                if(_.direction === 'next') {
+                    _.nextSlide();
+                } else {
+                    _.prevSlide();
+                }
+                
             }, _.options.autoplaySpeed);
         }
 

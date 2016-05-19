@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Scroll Trigger</title>
+  <meta name="viewport" content="width=device-width,maximum-scale=1,initial-scale=1,user-scalable=0" />
 
   <script src="./js/jquery.js"></script>
   <script src="./dest/js/m-slider.min.js"></script>
@@ -17,7 +18,8 @@
       $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');
     })
     var slider = $('.js-m-slider').MSlider({
-      items: 'all'
+      items: 'all',
+      autoplay: false
     });
     slider.on('m-slider:change', function(event, slider) {
       $('.js-m-slider-debug').append('<p>'+ event.type +'</p>');
