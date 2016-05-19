@@ -20,7 +20,7 @@
     var slider = $('.js-m-slider').MSlider({
       items: 'all',
       appendArrows: '.mega-stock__arrow',
-      dots: false,
+      dots: true,
       autoplay: false
 
     });
@@ -48,7 +48,7 @@
     })
   }
   function addSlide(element) {
-    for (var i = 0; i < 4; ++i) {
+    for (var i = 0; i < 2; ++i) {
       var random = Math.random();
       $(element).append(
         [

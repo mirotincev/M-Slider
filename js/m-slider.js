@@ -258,10 +258,13 @@
                     shiftX = eo.pageX - x1;
                     shiftY = eo.pageY - y1;
                     currentX = _.currentX + shiftX * 1.5;
+                    if(shiftY < 10) {
+                         _.$slider.children().css({
+                            '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
+                        });  
+                    } 
                     e.preventDefault();
-                    _.$slider.children().css({
-                        '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
-                    });  
+                    
             },
             // end
             'touchend.touchSlides': function(e) {
