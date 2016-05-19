@@ -19,6 +19,7 @@
     })
     var slider = $('.js-m-slider').MSlider({
       items: 'all',
+      appendArrows: '.mega-stock__arrow',
       autoplay: false
     });
     slider.on('m-slider:change', function(event, slider) {
@@ -59,6 +60,7 @@
 </script>
 <!-- '<img src="http://lorempixel.com/g/200/200?_=' + random +'" />', -->
 <body ng-app="demo">
+  <div class="mega-stock__arrow"></div>
   <ul class="mega-stock__container js-m-slider"> </ul>
 
   <pre class="js-m-slider-debug"></pre>

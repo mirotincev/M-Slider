@@ -124,11 +124,13 @@
             _.$prevArrow = $(_.options.prevArrow).addClass([_.options.className,'arrow'].join('__'));
             _.$nextArrow = $(_.options.nextArrow).addClass([_.options.className,'arrow'].join('__'));
             //if( _.slideCount > _.options.slidesToShow ) {
-                _.$wrap.append(_.$nextArrow);
-                _.$wrap.prepend(_.$prevArrow);
+                $(_.options.appendArrows)
+                    .prepend(_.$prevArrow)
+                    .append(_.$nextArrow);
+                
             //} 
 
-            _.$prevArrow.on('click.slider', { 
+            _.$prevArrow.on('click.slider', {  
                 slider: _,
                 action: "prevSlide" 
             }, _.changeSlide );
@@ -168,7 +170,7 @@
             .addClass([_.options.className,'content'].join('__'))
             .wrapAll(slide);
         _.$wrap = $(_.options.element).parent(slide);
-        _.options.appendArrows = $(_.$wrap);
+        //_.options.appendArrows = $(_.$wrap);
         _.options.element.children().addClass([_.options.className,'item'].join('__') )
         if (_.options.dots) {
             _.buildDots();
