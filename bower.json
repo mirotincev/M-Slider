@@ -1,5 +1,6 @@
 {
   "name": "m-slider",
+  "version": "1.1.0",
   "description": "MSlider Content - image slider",
   "main": "js/m-slider.js",
   "authors": [
