@@ -29,16 +29,6 @@
       loadIMage(slider);
     })
     
-
-    var slider2 = $('.js-m-slider2').MSlider({
-      items: 2,
-      dots: false,
-      easing: 'linear'
-    });
-    var slider3 = $('.js-m-slider3').MSlider({
-      items: 1
-    });
-
   });
   function loadIMage( slider ) {
     $.each(slider.activeSlides, function (index, item) {
@@ -48,7 +38,7 @@
     })
   }
   function addSlide(element) {
-    for (var i = 0; i < 2; ++i) {
+    for (var i = 0; i < 10; ++i) {
       var random = Math.random();
       $(element).append(
         [
