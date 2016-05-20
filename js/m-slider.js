@@ -410,7 +410,7 @@
 
                 for (var i = 0; i < _.$slider.children().length; i++) {
                     if( i < nextItems && i >= nextItems - _.options.items){
-                        widthSlide = widthSlide + $(_.$slider.children()[i]).innerWidth(); 
+                        widthSlide = widthSlide + $(_.$slider.children()[i]).outerWidth(true); 
                     }
                 }
             } else {
