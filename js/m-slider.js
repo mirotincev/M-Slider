@@ -144,6 +144,7 @@
             }, _.changeSlide );
         }
     };
+
     MSlider.prototype.chankPage = function() {
         var _ = this;
         var itemSlide = _.options.element.children().length;
@@ -164,7 +165,6 @@
     MSlider.prototype.unbindArrow = function() {
         var _ = this;
     }
-
 
     MSlider.prototype.buildWrap = function() {
         var _ = this;
@@ -251,8 +251,8 @@
         _.$slider.children()
         .on({
             // start
-            'touchstart': function(e) {
-                console.log('touchstart')
+            'touchstart.mslider': function(e) {
+                /*console.log('touchstart')*/
                 var eo = e.originalEvent.touches[0], swipeDirection;
                     x1 = eo.clientX;
                     y1 = eo.clientY;
@@ -263,57 +263,67 @@
                     e.preventDefault();
             },
             // move
-            'touchmove': function(e) {
-                console.log('touchmove')  
+            'touchmove.mslider': function(e) {
+                /*console.log('touchmove')  */
                 var eo = e.originalEvent.touches[0], swipeDirection;
-
-                    
                     shiftX = eo.clientX - x1;
                     shiftY = eo.clientY - y1;
                     _.touchObject.shiftX = eo.clientX;
                     _.touchObject.shiftY = eo.clientY;
+                    swipeDirection = _.swipeDirection();
+                    if( swipeDirection === 'vertical' ){
+                        var scrollTop = $('html,body').scrollTop();
+                        /*console.log('scrollTop', scrollTop );*/
+                        e.stopPropagation();
+                        e.preventDefault();
 
-                    e.stopPropagation();
-                    e.preventDefault();
+                    }
             },
             // end
-            'touchend': function(e) {
-                console.log('touchend')
+            'touchend.mslider': function(e) {
+                /*console.log('touchend');*/
                 var swipeDirection;
+                var scrollTop = $('body').scrollTop();
                 _.paused = false;
                 swipeDirection = _.swipeDirection();
 
-                    console.log('swipeDirection', swipeDirection)
+                    /*console.log('swipeDirection', swipeDirection)*/
                 /*console.log('shiftX', shiftX)*/
                     if( swipeDirection === 'left' ) {
                         _.nextSlide();
                     } else if( swipeDirection === 'right' ) {
                         _.prevSlide();
                     }
-                   
+
+                    /*console.log('shiftY swipeDirection', swipeDirection , shiftY);*/
+                    if( swipeDirection === 'up' ) {
+                        $('body').animate({
+                            scrollTop: scrollTop + Math.abs(shiftY) * 1.9
+                        })
+                    } else {
+                        $('body').animate({
+                            scrollTop: scrollTop - Math.abs(shiftY) * 1.9
+                        })
+                    }
                     shiftX = undefined;
     
                 /*console.log('touchend.touchSlides')  */
-            }, 
-
-            // cancel / reset
-            'touchcancel': function() {
-                console.log('touchcancel.touchSlides')  
             },
-
+            // cancel / reset
+            'touchcancel.mslider': function() {
+                /*console.log('touchcancel.touchSlides')*/
+            },
             // left custom slide event
-            'slideLeft': function(e, customStep) {
+            'slideLeft.mslider': function(e, customStep) {
                 console.info('slideLeft.touchSlides')  
             },
-
             // right custom slide event
-            'slideRight': function(e, customStep) {
+            'slideRight.mslider': function(e, customStep) {
                 console.info('slideRight.touchSlides')  
             }
         })
 
     };
-
 
     MSlider.prototype.swipeDirection = function() {
 
@@ -327,7 +337,7 @@
         if (swipeAngle < 0) {
             swipeAngle = 360 - Math.abs(swipeAngle);
         }
-        console.log('swipeAngle', swipeAngle)
+        /*console.log('swipeAngle', swipeAngle)*/
         if ((swipeAngle <= 45) && (swipeAngle >= 0)) {
             return (_.options.rtl === false ? 'left' : 'right');
         }
@@ -336,16 +346,15 @@
             return (_.options.rtl === false ? 'left' : 'right');
         }
         if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
-            console.log('right')
             return (_.options.rtl === false ? 'right' : 'left');
         }
-        if (_.options.verticalSwiping === true) {
+        //if (_.options.verticalSwiping === true) {
             if ((swipeAngle >= 35) && (swipeAngle <= 135)) {
-                return 'down';
-            } else {
                 return 'up';
+            } else {
+                return 'down';
             }
-        }
+        //}
 
         return 'vertical';
 
@@ -367,7 +376,6 @@
             _.animating = false;
             _.$slider.trigger('m-slider:change', _);
     }
-
 
     MSlider.prototype.goToSlide = function(data) {
         var _ = this;    
@@ -488,7 +496,6 @@
     MSlider.prototype.autoPlay = function() {
 
         var _ = this; 
-        console.log('_.autoPlayTimer', _.autoPlayTimer);
         if (_.autoPlayTimer) {
             clearInterval(_.autoPlayTimer);
         }
@@ -501,7 +508,6 @@
                     _.prevSlide();
                 }
             }, _.options.autoplaySpeed);
-            console.log(_.autoPlayTimer)
         }
 
     };
