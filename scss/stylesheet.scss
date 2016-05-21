@@ -3,6 +3,13 @@ pre {
 	max-height: 100px;
     overflow: auto;
 }
+.mega_stock {
+	margin: 100px 0 ;
+	position: relative;
+}
+.mega-stock__arrow{
+	z-index: 11;
+}
 
 .m-slider {
 	&__content {
@@ -10,7 +17,7 @@ pre {
 		padding: 0;
 	    overflow: hidden;
 	    white-space: nowrap;
-	    width: 500px;
+	    width: 100%;
 		
 	} 
 	&__wrap{
@@ -22,7 +29,7 @@ pre {
 		position: absolute;
 		top: 0;
 		background: red;
-		z-index: 10;
+		z-index: 10; 
 		&--next {
 			right: 0;
 		} 

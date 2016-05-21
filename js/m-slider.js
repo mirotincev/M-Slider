@@ -34,6 +34,7 @@
                 items: 1,
                 autoplaySpeed: 5000,
                 autoPlayTimer: null,
+                rtl: false,
                 autoplay: true,
                 easing: 'swing',
                
@@ -72,7 +73,7 @@
             _.paused = false;
             _.$slideWidth = _.$slider.children().eq(0).innerWidth();
 
-            //_.autoPlay = $.proxy(_.autoPlay, _);
+            _.autoPlay = $.proxy(_.autoPlay, _);
 
             _.$slider.trigger('m-slider:init', _);    
             _.init(true);
@@ -219,7 +220,7 @@
             _.initializeEvents();    
             _.setSlideClasses(true);
             if (_.options.autoplay === true) {
-            //    _.autoPlay();
+               _.autoPlay();
             }   
             _.$slider.trigger('m-slider:initialize', _);     
         }, 50)
@@ -229,6 +230,7 @@
     MSlider.prototype.initializeEvents = function() {
         var _ = this,x1,y1,shiftX,shiftY, t1,
             currentX = 0; // initial index
+            _.touchObject = {};
         _.$slider
         .on('mouseenter', function(event) {
             _.paused = true;
@@ -247,65 +249,105 @@
         });
 
         _.$slider.children()
-        .bind({
+        .on({
             // start
-            'touchstart.touchSlides': function(e) {
-                var eo = e.originalEvent.touches[0];
-                    x1 = eo.pageX;
-                    y1 = eo.pageY;
-                    _.$slider.children().css('-webkit-transition', 'none');
-                    t1 = Date.now();
+            'touchstart': function(e) {
+                console.log('touchstart')
+                var eo = e.originalEvent.touches[0], swipeDirection;
+                    x1 = eo.clientX;
+                    y1 = eo.clientY;
                     _.paused = true;
+                    _.touchObject.clientX = x1;
+                    _.touchObject.clientY = y1;
+                    e.stopPropagation();
+                    e.preventDefault();
             },
             // move
-            'touchmove.touchSlides': function(e) {
-                /*console.log('touchmove.touchSlides')*/  
-                var eo = e.originalEvent.touches[0];
-                    shiftX = eo.pageX - x1;
-                    shiftY = eo.pageY - y1;
-                    currentX = _.currentX + shiftX * 1.9;
-                if(Math.abs(shiftY) < Math.abs(currentX)) {
-                    _.$slider.children().css({
-                        '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
-                    });
-                } else {
-                    e.preventDefault();
-                }
+            'touchmove': function(e) {
+                console.log('touchmove')  
+                var eo = e.originalEvent.touches[0], swipeDirection;
 
                     
+                    shiftX = eo.clientX - x1;
+                    shiftY = eo.clientY - y1;
+                    _.touchObject.shiftX = eo.clientX;
+                    _.touchObject.shiftY = eo.clientY;
+
+                    e.stopPropagation();
+                    e.preventDefault();
             },
             // end
-            'touchend.touchSlides': function(e) {
-                /*console.log('touchend.touchSlides')*/
+            'touchend': function(e) {
+                console.log('touchend')
+                var swipeDirection;
                 _.paused = false;
+                swipeDirection = _.swipeDirection();
+
+                    console.log('swipeDirection', swipeDirection)
                 /*console.log('shiftX', shiftX)*/
-                if( typeof shiftX !== 'undefined' && shiftY < 10 ){
-                    if( shiftX < 0 ) {
+                    if( swipeDirection === 'left' ) {
                         _.nextSlide();
-                    } else {
+                    } else if( swipeDirection === 'right' ) {
                         _.prevSlide();
                     }
+                   
                     shiftX = undefined;
     
-                }
                 /*console.log('touchend.touchSlides')  */
             }, 
 
             // cancel / reset
-            'touchcancel.touchSlides': function() {
-                /*console.log('touchcancel.touchSlides')  */
+            'touchcancel': function() {
+                console.log('touchcancel.touchSlides')  
             },
 
             // left custom slide event
-            'slideLeft.touchSlides': function(e, customStep) {
-                /*console.info('slideLeft.touchSlides') */ 
+            'slideLeft': function(e, customStep) {
+                console.info('slideLeft.touchSlides')  
             },
 
             // right custom slide event
-            'slideRight.touchSlides': function(e, customStep) {
-                /*console.info('slideRight.touchSlides')  */
+            'slideRight': function(e, customStep) {
+                console.info('slideRight.touchSlides')  
             }
         })
+
+    };
+
+
+    MSlider.prototype.swipeDirection = function() {
+
+        var xDist, yDist, r, swipeAngle, _ = this;
+        xDist = _.touchObject.clientX - _.touchObject.shiftX;
+        yDist = _.touchObject.clientY - _.touchObject.shiftY;
+
+        r = Math.atan2(yDist, xDist);
+
+        swipeAngle = Math.round(r * 180 / Math.PI);
+        if (swipeAngle < 0) {
+            swipeAngle = 360 - Math.abs(swipeAngle);
+        }
+        console.log('swipeAngle', swipeAngle)
+        if ((swipeAngle <= 45) && (swipeAngle >= 0)) {
+            return (_.options.rtl === false ? 'left' : 'right');
+        }
+        if ((swipeAngle <= 360) && (swipeAngle >= 315)) {
+            
+            return (_.options.rtl === false ? 'left' : 'right');
+        }
+        if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
+            console.log('right')
+            return (_.options.rtl === false ? 'right' : 'left');
+        }
+        if (_.options.verticalSwiping === true) {
+            if ((swipeAngle >= 35) && (swipeAngle <= 135)) {
+                return 'down';
+            } else {
+                return 'up';
+            }
+        }
+
+        return 'vertical';
 
     };
 
@@ -354,6 +396,7 @@
         _.direction = 'prev';
          _.animating = true;
          _.animationTime = 500;
+         _.autoPlayTimer = 0;
          --_.currentSlide;
         if( _.currentSlide < 0 ) {
             _.animationTime = 200;
@@ -368,6 +411,7 @@
         var _ = this;    
          var widthSlide = _._widthSlide();
          //var sLeft = _.$slider.scrollLeft();
+         _.autoPlayTimer = 5;
          _.direction = 'next';
          _.animating = true;
          _.animationTime = 500;
@@ -444,6 +488,7 @@
     MSlider.prototype.autoPlay = function() {
 
         var _ = this; 
+        console.log('_.autoPlayTimer', _.autoPlayTimer);
         if (_.autoPlayTimer) {
             clearInterval(_.autoPlayTimer);
         }
@@ -456,6 +501,7 @@
                     _.prevSlide();
                 }
             }, _.options.autoplaySpeed);
+            console.log(_.autoPlayTimer)
         }
 
     };
