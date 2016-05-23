@@ -259,8 +259,8 @@
                     _.paused = true;
                     _.touchObject.clientX = x1;
                     _.touchObject.clientY = y1;
-                    e.stopPropagation();
-                    e.preventDefault();
+                    //e.stopPropagation();
+                    //e.preventDefault();
             },
             // move
             'touchmove.mslider': function(e) {
@@ -271,12 +271,9 @@
                     _.touchObject.shiftX = eo.clientX;
                     _.touchObject.shiftY = eo.clientY;
                     swipeDirection = _.swipeDirection();
-                    if( swipeDirection === 'vertical' ){
-                        var scrollTop = $('html,body').scrollTop();
-                        /*console.log('scrollTop', scrollTop );*/
-                        e.stopPropagation();
-                        e.preventDefault();
-
+                    if( ['left', 'right'].indexOf( swipeDirection) !== -1 ){
+                       e.stopPropagation();
+                       e.preventDefault();
                     }
             },
             // end
@@ -296,15 +293,18 @@
                     }
 
                     /*console.log('shiftY swipeDirection', swipeDirection , shiftY);*/
-                    if( swipeDirection === 'up' ) {
-                        $('body').animate({
-                            scrollTop: scrollTop + Math.abs(shiftY) * 1.9
-                        })
-                    } else {
-                        $('body').animate({
-                            scrollTop: scrollTop - Math.abs(shiftY) * 1.9
-                        })
-                    }
+                    /* доводка страницы */
+                    /*if( ['up', 'down'].indexOf( swipeDirection) !== -1 && Math.abs(shiftY) > 40 ) {
+                        if( swipeDirection === 'up'  ) {
+                            $('body').animate({
+                                scrollTop: scrollTop + Math.abs(shiftY) * 1.9
+                            })
+                        } else {
+                            $('body').animate({
+                                scrollTop: scrollTop - Math.abs(shiftY) * 1.9
+                            })
+                        }
+                    }*/
                     shiftX = undefined;
     
                 /*console.log('touchend.touchSlides')  */
@@ -370,7 +370,7 @@
                 '-webkit-transition':'-webkit-transform '+ _.animationTime +'ms ease-out',
                 '-webkit-transform': 'translate3d('+ currentX +'px, 0, 0)'
             });
-            //_.autoPlay();
+            _.autoPlay();
             _.setDotsClasses();
             _.setSlideClasses();
             _.animating = false;
@@ -494,13 +494,12 @@
     }
 
     MSlider.prototype.autoPlay = function() {
-
-        var _ = this; 
+        var _ = this;   
         if (_.autoPlayTimer) {
             clearInterval(_.autoPlayTimer);
         }
 
-        if ( _.paused !== true) {
+        if ( _.paused !== true && _.options.autoplay === true) {
             _.autoPlayTimer = setInterval(function() {
                 if(_.direction === 'next') {
                     _.nextSlide();
