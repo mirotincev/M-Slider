@@ -92,7 +92,7 @@
          if( typeof _.options.items !== 'number' ) {
             _.slideCount = _.$slider.children().length;
          } else {
-            _.slideCount = Math.ceil(_.$sliderWidth / widthSlide );
+            _.slideCount = Math.ceil(_.$sliderWidth / _.options.items ); 
          }
          
          var slide = document.createElement('div'), 
