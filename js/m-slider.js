@@ -132,7 +132,7 @@
                     .prepend(_.$prevArrow)
                     .append(_.$nextArrow);
                 
-            //} 
+            //}   
         if (_.options.arrows === true ) {        
             _.$prevArrow.on('click.slider', {  
                 slider: _,
@@ -183,9 +183,7 @@
         
             _.buildDots();
             _.chankPage();
-        if (_.options.arrows) {
             _.buildArrow();
-        }
         _.setDotsClasses(_.currentSlide);
         
           
@@ -476,14 +474,12 @@
 
     MSlider.prototype.setSlideClasses = function( isInit ) {
         var _ = this;
-        if (_.options.arrows) {
             var classNameActive = [_.options.className,'item--active'].join('__');
             _.activeSlides = _.paginate[_.currentSlide];   
             _.$slider.children().removeClass(classNameActive);
             $.each(_.activeSlides, function (index, item) {
                 _.$slider.children().eq(item).addClass(classNameActive);
-            })      
-        }
+            });
 
     }
 
