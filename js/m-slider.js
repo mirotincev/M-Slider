@@ -123,7 +123,7 @@
     MSlider.prototype.buildArrow = function() {
         var _ = this;
 
-        
+            if (_.options.arrows === true ) {  
 
             _.$prevArrow = $(_.options.prevArrow).addClass([_.options.className,'arrow'].join('__'));
             _.$nextArrow = $(_.options.nextArrow).addClass([_.options.className,'arrow'].join('__'));
@@ -132,8 +132,7 @@
                     .prepend(_.$prevArrow)
                     .append(_.$nextArrow);
                 
-            //}   
-        if (_.options.arrows === true ) {        
+            //}       
             _.$prevArrow.on('click.slider', {  
                 slider: _,
                 action: "prevSlide" 
