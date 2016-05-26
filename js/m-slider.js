@@ -123,7 +123,7 @@
     MSlider.prototype.buildArrow = function() {
         var _ = this;
 
-        if (_.options.arrows === true ) {
+        
 
             _.$prevArrow = $(_.options.prevArrow).addClass([_.options.className,'arrow'].join('__'));
             _.$nextArrow = $(_.options.nextArrow).addClass([_.options.className,'arrow'].join('__'));
@@ -133,7 +133,7 @@
                     .append(_.$nextArrow);
                 
             //} 
-
+        if (_.options.arrows === true ) {        
             _.$prevArrow.on('click.slider', {  
                 slider: _,
                 action: "prevSlide" 
@@ -142,6 +142,9 @@
                 slider: _,
                 action: "nextSlide" 
             }, _.changeSlide );
+        } else {
+            _.$prevArrow.addClass('hidden');
+            _.$nextArrow.addClass('hidden');  
         }
     };
 
