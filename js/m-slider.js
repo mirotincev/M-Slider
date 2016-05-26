@@ -141,9 +141,9 @@
                 slider: _,
                 action: "nextSlide" 
             }, _.changeSlide );
-        } else {
-            _.$prevArrow.addClass('hidden');
-            _.$nextArrow.addClass('hidden');  
+        } else { 
+            $(_.$prevArrow).addClass('hidden');
+            $(_.$nextArrow).addClass('hidden');  
         }
     };
 
