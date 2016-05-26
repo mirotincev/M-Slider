@@ -84,7 +84,7 @@
   
     }());
 
-
+  
     MSlider.prototype.buildDots = function() {
          var _ = this;
          var widthSlide = _._widthSlide();
@@ -92,7 +92,7 @@
          if( typeof _.options.items !== 'number' ) {
             _.slideCount = _.$slider.children().length;
          } else {
-            _.slideCount = Math.ceil(_.$sliderWidth / _.options.items ); 
+            _.slideCount = Math.ceil( _.$slider.children().length / _.options.items ); 
          }
          
          var slide = document.createElement('div'), 
